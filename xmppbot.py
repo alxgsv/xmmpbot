@@ -87,11 +87,6 @@ class XMPPBot(object):
         self.conn = None
         self.__finished = False
 
-        self.commands = { 'help': self.help_callback, }
-        for (name, value) in inspect.getmembers( self):
-            if inspect.ismethod( value) and name.startswith( self.command_prefix):
-                self.commands[name[len(self.command_prefix):]] = value
-
     def log( self, s):
         """Logging facility, can be overridden in subclasses to log to file, etc.."""
         print '%s: %s' % ( self.__class__.__name__, s, )
@@ -136,10 +131,16 @@ class XMPPBot(object):
             mess.setThread( in_reply_to.getThread())
             mess.setType( in_reply_to.getType())
         self.connect().send(mess)
+        
+    def populate_message(self, mess):
+        """ Manipulate message before its being parsed"""
+        return mess
 
     def message_handler(self, conn, mess):
         """Messages sent to the bot will arrive here. Command handling + routing is done in this function."""
         reply = None
+        
+        mess = self.populate_message(mess)
 
         for message_parser in self.message_parsers:
             if message_parser.recognize(mess):
