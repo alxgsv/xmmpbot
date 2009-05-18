@@ -151,7 +151,6 @@ class XMPPBot(object):
             self.send(mess.getFrom(), reply, mess)
     
     def presence_handler(self, conn, mess):
-        print mess, mess.getFrom().getStripped(), mess.getShow(), mess.getStatus()
         XMPPBot.presence_storage.set_presence(mess.getFrom(), mess.getShow(), mess.getStatus())
 
     def unknown_command( self, mess, cmd, args):
