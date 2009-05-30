@@ -123,14 +123,20 @@ class XMPPBot(object):
         """
         self.__finished = True
 
-    def send( self, user, text, in_reply_to = None):
+    def send( self, user, text, html = None, in_reply_to = None):
         """Sends a simple message to the specified user."""
         mess = xmpp.Message( user, text)
+        
+        if html:
+            mess.addChild('html', {}, payload=["markuped" + html], namespace='http://jabber.org/protocol/xhtml-im')
         
         if in_reply_to:
             mess.setThread( in_reply_to.getThread())
             mess.setType( in_reply_to.getType())
-        self.connect().send(mess)
+        try:
+            self.connect().send(mess)
+        except IOError:
+            self.connect()
         
     def populate_message(self, mess):
         """ Manipulate message before its being parsed"""
