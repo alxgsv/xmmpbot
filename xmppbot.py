@@ -127,8 +127,8 @@ class XMPPBot(object):
         """Sends a simple message to the specified user."""
         mess = xmpp.Message( user, text)
         
-        if html:
-            mess.addChild('html', {}, payload=["markuped" + html], namespace='http://jabber.org/protocol/xhtml-im')
+        #if html:
+        #    mess.addChild('html', {}, payload=["markuped" + html], namespace='http://jabber.org/protocol/xhtml-im')
         
         if in_reply_to:
             mess.setThread( in_reply_to.getThread())
