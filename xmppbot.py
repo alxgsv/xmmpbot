@@ -123,7 +123,7 @@ class XMPPBot(object):
         """
         self.__finished = True
 
-    def send( self, user, text, html = None, in_reply_to = None):
+    def send( self, user, text, in_reply_to = None):
         """Sends a simple message to the specified user."""
         mess = xmpp.Message( user, text)
         
